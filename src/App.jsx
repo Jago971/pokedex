@@ -1,34 +1,50 @@
 import { useState, useEffect } from "react";
-import Button from "./components/Button/index.jsx";
+import Tile from "./components/pokemonListTile/index.jsx";
+import PokemonInfo from "./components/pokemonEntry/index.jsx";
 
 function App() {
-  let [count, setCount] = useState(0);
-
-  function clickBtn1() {
-    setCount(count + 1);
-    // calculateTotal()
-  }
-  
-  let [count2, setCount2] = useState(0);
-  function clickBtn2() {
-    setCount2(count2 + 1);
-  }
-  let [total, setTotal] = useState(0);
-  // function calculateTotal() {
-  //   setTotal( count + count2);
-  // }
+  const [pokemonList, setList] = useState(null)
+  const [chosenPokemon, setPokemon] = useState(null)
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
-    setTotal(count + count2)
-  }, [count, count2])
+    if(page == 0) {
+      fetch('https://pokeapi.co/api/v2/pokemon/?limit=151')
+      .then((response) => response.json())
+      .then((data) => {
+        setList(data.results);
+      });
+    } else {
+      fetch(`https://pokeapi.co/api/v2/pokemon/${page}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPokemon(data);
+      })
+    }  
+  },[page])
 
+  function btnClick(e) {
+    setPage(e.target.id)
+  }
 
   return (
-    <>
-      <Button clickHandler={clickBtn1} count={count}></Button>
-      <Button clickHandler={clickBtn2} count={count2}></Button>
-      <p>All clicks is {total}</p>
-    </>
+    <div className="flex flex-col h-screen w-screen p-2 gap-2">
+      <header className="grow flex flex-col justify-end px-2">
+        <p className="text-4xl">{page == 0 ? 'POKEDEX' : (chosenPokemon && chosenPokemon.name)}</p>
+      </header>
+      <section className="h-3/4 flex flex-wrap gap-0 overflow-auto no-scrollbar">
+      {page == 0
+      ? (pokemonList &&
+        pokemonList.map((pokemon, i) => {
+          return (<Tile key={i} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
+        }))
+      : (<PokemonInfo></PokemonInfo>)
+      }
+      </section>
+      <footer className="px-2 pb-2">
+        <p className="">Using PokeAPI by Matt Mannings</p>
+      </footer>
+    </div>
   );
 }
 
