@@ -22,6 +22,11 @@ function App() {
     setPage(e.target.dataset.id)
   }
 
+  function backClick() {
+    setColor(0)
+    setPage(0)
+  }
+
   function renderContent() {
     if(!page) {
       return(
@@ -29,7 +34,7 @@ function App() {
         return (<Tile key={i+1} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
       }))
     } else {
-      return <PokemonInfo id={page} color={color}></PokemonInfo>
+      return <PokemonInfo clickHandler={backClick} id={page} color={color}></PokemonInfo>
     }
   }
 

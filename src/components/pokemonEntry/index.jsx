@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function PokemonInfo( { id, color } ) {
+function PokemonInfo( { id, color, clickHandler } ) {
 
     const [pokemon, setPokemon] = useState(0)
     const [img, setImg] = useState(0)
@@ -23,10 +23,13 @@ function PokemonInfo( { id, color } ) {
                     <div className="w-1/2 content-center">
                     <img className="w-full" src={img} alt={pokemon.name} />
                     </div>
-                    <div className="w-1/2 bg-gray-100 rounded-2xl flex flex-col px-12 pt-6 text-4xl">
-                    <p className="py-4">Height: <span className="font-bold">{pokemon.height * 10} cm</span></p>
-                    <p className="py-4">Weight: <span className="font-bold">{pokemon.weight / 10} kg</span></p>
-                    <p className="py-4">Evolutions:</p>
+                    <div className="w-1/2 bg-gray-100 rounded-2xl flex flex-col justify-between items-center p-4 text-4xl">
+                    <div>
+                        <p className="py-4">Height: <span className="font-bold">{pokemon.height * 10} cm</span></p>
+                        <p className="py-4">Weight: <span className="font-bold">{pokemon.weight / 10} kg</span></p>
+                        <p className="py-4">Evolutions:</p>
+                    </div>
+                        <button onClick={clickHandler} className="bg-gray-300 w-full rounded-lg text-gray-500 p-2 justify-self-end">BACK</button>
                     </div>
                 </div>
             </>     
