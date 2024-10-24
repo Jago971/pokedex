@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 function Tile({ name, clickHandler, id }) {
     const [types, setTypes] = useState(null);
-    const [colors, setColors] = useState(null);
     const [img, setImg] = useState(null)
+    const [colors, setColors] = useState(null);
 
     const pokemonTypes = [
         { type: "normal", color: "gray-400" },     

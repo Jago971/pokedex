@@ -3,8 +3,8 @@ import Tile from "./components/pokemonListTile/index.jsx";
 import PokemonInfo from "./components/pokemonEntry/index.jsx";
 
 function App() {
-  const [pokemonList, setList] = useState(null)
-  const [chosenPokemon, setPokemon] = useState(null)
+  const [pokemonList, setList] = useState(0)
+  const [chosenPokemon, setPokemon] = useState(0)
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function App() {
         pokemonList.map((pokemon, i) => {
           return (<Tile key={i} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
         }))
-      : (<PokemonInfo></PokemonInfo>)
+      : (chosenPokemon && <PokemonInfo pokemon={chosenPokemon}></PokemonInfo>)
       }
       </section>
       <footer className="px-2 pb-2">
