@@ -29,7 +29,7 @@ function App() {
         return (<Tile key={i+1} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
       }))
     } else {
-      return(<PokemonInfo id={page} color={color}></PokemonInfo>)
+      return <PokemonInfo id={page} color={color}></PokemonInfo>
     }
   }
 
