@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-function PokemonInfo( { pokemon } ) {
+function PokemonInfo( { pokemon, id } ) {
 
     const [colors, setColors] = useState(0);
+    const [evols, setEvols] = useState(0)
 
     const pokemonTypes = [
         { type: "normal", color: "bg-gray-300" },     
@@ -31,6 +32,11 @@ function PokemonInfo( { pokemon } ) {
                 return matchedType.color
             });
             setColors(selectedColors);
+            fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setEvols(data)
+            });
     }, []);
 
     return (
@@ -46,8 +52,10 @@ function PokemonInfo( { pokemon } ) {
                 <p className="py-4">Height: <span className="font-bold">{pokemon.height * 10} cm</span></p>
                 <p className="py-4">Weight: <span className="font-bold">{pokemon.weight / 10} kg</span></p>
                 <p className="py-4">Evolutions:</p>
-                {
-                    pokemon.ev
+
+                <p>{id}</p>
+                {!evols == 0 &&
+                    <p>{evols.chain.evolves_to[0].species.name}</p>
                 }
                 </div>
             </div>

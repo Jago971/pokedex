@@ -38,7 +38,7 @@ function App() {
         pokemonList.map((pokemon, i) => {
           return (<Tile key={i} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
         }))
-      : (chosenPokemon && <PokemonInfo pokemon={chosenPokemon}></PokemonInfo>)
+      : (chosenPokemon && <PokemonInfo id={page} pokemon={chosenPokemon}></PokemonInfo>)
       }
       </section>
       <footer className="px-2 pb-2">
