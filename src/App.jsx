@@ -3,12 +3,12 @@ import Tile from "./components/pokemonListTile/index.jsx";
 import PokemonInfo from "./components/pokemonEntry/index.jsx";
 
 function App() {
-  const [pokemonList, setList] = useState(0)
-  const [chosenPokemon, setPokemon] = useState(0)
+  const [pokemonList, setList] = useState([])
+  const [chosenPokemon, setPokemon] = useState([])
   const [page, setPage] = useState(0)
 
   useEffect(() => {
-    if(page == 0) {
+    if(!page) {
       fetch('https://pokeapi.co/api/v2/pokemon/?limit=151')
       .then((response) => response.json())
       .then((data) => {
@@ -16,15 +16,27 @@ function App() {
       });
     } else {
       fetch(`https://pokeapi.co/api/v2/pokemon/${page}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPokemon(data);
-      })
-    }  
+        .then((response) => response.json())
+        .then((data) => {
+          setPokemon(data);
+        })
+    }
   },[page])
 
   function btnClick(e) {
     setPage(e.target.id)
+  }
+
+  function renderContent() {
+    if(!page) {
+      pokemonList
+      && pokemonList.map((pokemon, i) => {
+        return (<Tile key={i+1} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
+      })
+    } else {
+      chosenPokemon
+      && <PokemonInfo id={page} pokemon={chosenPokemon}></PokemonInfo>
+    }
   }
 
   return (
@@ -33,13 +45,7 @@ function App() {
         <p className="text-4xl">{page == 0 ? 'POKEDEX' : (chosenPokemon && chosenPokemon.name)}</p>
       </header>
       <section className="h-3/4 flex flex-wrap gap-0 overflow-auto no-scrollbar">
-      {page == 0
-      ? (pokemonList &&
-        pokemonList.map((pokemon, i) => {
-          return (<Tile key={i} clickHandler={btnClick} id={i+1} name={pokemon.name}></Tile>)
-        }))
-      : (chosenPokemon && <PokemonInfo id={page} pokemon={chosenPokemon}></PokemonInfo>)
-      }
+      {renderContent()}
       </section>
       <footer className="px-2 pb-2">
         <p className="">Using PokeAPI by Matt Mannings</p>
