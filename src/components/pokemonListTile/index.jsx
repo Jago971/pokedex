@@ -51,7 +51,7 @@ function Tile({ id, name, clickHandler }) {
                 types.map((type, index) => (
                     index == 0
                     ? <div className="h-1/3 flex items-center justify-start" key={index}><p className="h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-white text-black">{type.type.name}</p></div>
-                    : <div className="h-1/3 flex items-center justify-start" key={index}><p className={`h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-${colors[1]}`}>{type.type.name}</p></div>
+                    : <div className="h-1/3 flex items-center justify-start" key={index}><p className={`h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit ${colors[1]}`}>{type.type.name}</p></div>
                 ))
             )
         }
