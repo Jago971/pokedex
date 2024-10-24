@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
 
-function Tile({ name, clickHandler, id }) {
-    const [types, setTypes] = useState(null);
-    const [img, setImg] = useState(null)
-    const [colors, setColors] = useState(null);
+function Tile({ id, name, clickHandler }) {
+    const [types, setTypes] = useState(0); // set on mount
+    const [img, setImg] = useState(0) // set on mount
+    const [colors, setColors] = useState(0); // set in reaction to types and if types is true
 
     const pokemonTypes = [
-        { type: "normal", color: "gray-400" },     
-        { type: "fire", color: "red-500" },        
-        { type: "water", color: "blue-500" },      
-        { type: "grass", color: "green-500" },    
-        { type: "electric", color: "yellow-500" }, 
-        { type: "ice", color: "cyan-300" },   
-        { type: "fighting", color: "red-600" }, 
-        { type: "poison", color: "purple-500" }, 
-        { type: "ground", color: "yellow-700" }, 
-        { type: "flying", color: "blue-300" },  
-        { type: "psychic", color: "pink-500" },
-        { type: "bug", color: "green-600" },    
-        { type: "rock", color: "yellow-600" },  
-        { type: "ghost", color: "purple-600" },    
-        { type: "dragon", color: "indigo-600" },  
-        { type: "dark", color: "gray-800" },       
-        { type: "steel", color: "gray-500" },      
-        { type: "fairy", color: "pink-300" }       
+        { type: "normal", color: "bg-gray-400" },     
+        { type: "fire", color: "bg-red-500" },        
+        { type: "water", color: "bg-blue-500" },      
+        { type: "grass", color: "bg-green-500" },    
+        { type: "electric", color: "bg-yellow-500" }, 
+        { type: "ice", color: "bg-cyan-300" },   
+        { type: "fighting", color: "bg-red-600" }, 
+        { type: "poison", color: "bg-purple-500" }, 
+        { type: "ground", color: "bg-yellow-700" }, 
+        { type: "flying", color: "bg-blue-300" },  
+        { type: "psychic", color: "bg-pink-500" },
+        { type: "bug", color: "bg-green-600" },    
+        { type: "rock", color: "bg-yellow-600" },  
+        { type: "ghost", color: "bg-purple-600" },    
+        { type: "dragon", color: "bg-indigo-600" },  
+        { type: "dark", color: "bg-gray-800" },       
+        { type: "steel", color: "bg-gray-500" },      
+        { type: "fairy", color: "bg-pink-300" }       
     ];
 
     useEffect(() => {
@@ -45,23 +45,28 @@ function Tile({ name, clickHandler, id }) {
         }
     }, [types]);
 
-    return (
-        <>
-            {colors && (
-                <div className="h-1/4 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-2/12 p-2">
-                    <button onClick={clickHandler} id={id} className={`shadow-md relative flex flex-col justify-start h-full w-full rounded-lg p-1 bg-${colors[0]}`}>
-                        <div className="h-1/3 flex items-center justify-start"><p className="h-fit flex items-center px-1 font-bold w-fit border-2 border-black rounded-lg">{name}</p></div>
-                        {types.map((type, index) => (
-                            index == 0
-                            ? <div className="h-1/3 flex items-center justify-start" key={index}><p className="h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-white text-black">{type.type.name}</p></div>
-                            : <div className="h-1/3 flex items-center justify-start" key={index}><p className={`h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-${colors[1]}`}>{type.type.name}</p></div>
-                        ))}
-                        <img className="h-5/6 absolute -bottom-2 -right-2" src={img} alt={name} />  
-                    </button>
-                </div>
-            )}
-        </>
-    );
+    function renderTypes() {
+        if(types) {
+            return(
+                types.map((type, index) => (
+                    index == 0
+                    ? <div className="h-1/3 flex items-center justify-start" key={index}><p className="h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-white text-black">{type.type.name}</p></div>
+                    : <div className="h-1/3 flex items-center justify-start" key={index}><p className={`h-fit flex items-center rounded-lg border-2 border-black px-1 w-fit bg-${colors[1]}`}>{type.type.name}</p></div>
+                ))
+            )
+        }
+    }
+    if(colors) {
+        return (
+            <div className="h-1/4 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-2/12 p-2">
+                <button onClick={clickHandler} data-color={colors[0]} data-id={id} className={`shadow-md relative flex flex-col justify-start h-full w-full rounded-lg p-1 ${colors[0]}`}>
+                    <div className="h-1/3 flex items-center justify-start"><p className="h-fit flex items-center px-1 font-bold w-fit border-2 border-black rounded-lg">{name}</p></div>
+                    {renderTypes()}
+                    <img className="h-5/6 absolute -bottom-2 -right-2" src={img} alt={name} />  
+                </button>
+            </div>
+        );
+    }
 }
 
 export default Tile;
